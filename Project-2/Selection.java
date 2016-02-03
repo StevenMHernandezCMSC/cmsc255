@@ -43,8 +43,7 @@ class Selection {
     Scanner scan = new Scanner(System.in);
     
     //Ask user for floating point radius of circle
-    System.out.println("Please enter a radius (including decimal points)");
-    float radius = scan.nextFloat();
+    float radius = requestRadius(scan);
     
     //Ask user what they want calculated
     String type = requestCalculationType(scan);
@@ -66,8 +65,25 @@ class Selection {
     }
     
     //print "The X of a circle with radius X is X."
-    System.out.println();
-    System.out.printf("The %s of the circle with radius %.2f is %.2f", calculationTypeName, radius, answer);
+    System.out.printf("\nThe %s of the circle with radius %.2f is %.2f", calculationTypeName, radius, answer);
+  }
+  
+  /*
+   * 
+   * Request Radius from the user
+   * 
+   */
+  public static float requestRadius(Scanner scan) {
+    System.out.println("Please enter a radius (including decimal points)");
+    
+    if(scan.hasNextFloat()) {
+      float radius = scan.nextFloat();
+      return radius;
+    } else {
+      String non_floating_radius = scan.next();
+      System.out.printf("Sorry, \"%s\" doesn't seem to be a number we can use for the calculation.\n", non_floating_radius);
+      return requestRadius(scan);
+    }
   }
   
   /*
