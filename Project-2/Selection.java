@@ -48,91 +48,47 @@ public static void main (String[] args) {
         if(scan.hasNextFloat()) {
                 float radius = scan.nextFloat();
 
-                //clear out the buffer
-                if(scan.hasNextLine()) {
-                        scan.nextLine();
-                }
+                if(radius > 0) {
+                        //Ask user what they want calculated
+                        System.out.println("What would you like to calculate?");
+                        System.out.println("To calculate Diameter, Circumference, or Area, enter D, C, or A.");
 
-                //Ask user what they want calculated
-                System.out.println("What would you like to calculate?");
-                System.out.println("To calculate Diameter, Circumference, or Area, enter D, C, or A.");
+                        String type = scan.next();
 
-                String type = scan.next();
+                        //Validate the incoming string
+                        if(type.equals("D") || type.equals("C") || type.equals("A")) {
 
-                //Validate the incoming string
-                if(type.equals("D") || type.equals("C") || type.equals("A")) {
+                                //instantiate calculation variables
+                                String calculationTypeName = "";
+                                double answer = 0;
 
-                        //instantiate calculation variables
-                        String calculationTypeName = "";
-                        double answer = 0;
+                                //calculate answer based on input from user
+                                if (type.equals("D")) {
+                                        calculationTypeName = "diameter";
+                                        answer = radius * 2;
+                                } else if (type.equals("C")) {
+                                        calculationTypeName = "circumference";
+                                        answer = 2 * Math.PI * radius;
+                                } else if (type.equals("A")) {
+                                        calculationTypeName = "area";
+                                        answer = Math.PI * Math.pow(radius, 2);
+                                }
 
-                        //calculate answer based on input from user
-                        if (type.equals("D")) {
-                                calculationTypeName = "diameter";
-                                answer = radius * 2;
-                        } else if (type.equals("C")) {
-                                calculationTypeName = "circumference";
-                                answer = 2 * Math.PI * radius;
-                        } else if (type.equals("A")) {
-                                calculationTypeName = "area";
-                                answer = Math.PI * Math.pow(radius, 2);
+                                //print "The X of a circle with radius X is X."
+                                System.out.printf("\nThe %s of the circle with radius %.2f is %.2f", calculationTypeName, radius, answer);
+                        } else {
+                                System.out.printf("Sorry, \"%s\" is not a calculation option.\n", type);
                         }
-
-                        //print "The X of a circle with radius X is X."
-                        System.out.printf("\nThe %s of the circle with radius %.2f is %.2f", calculationTypeName, radius, answer);
                 } else {
-                        System.out.printf("Sorry, \"%s\" is not a calculation option.\n", type);
+                        if(radius == 0) {
+                                System.out.printf("Sorry, we can't do calculations with a radius of zero.\n");
+                        } else {
+                                System.out.printf("Sorry, we can't do calculations with a negative radius.\n");
+                        }
                 }
         } else {
                 String non_floating_radius = scan.next();
                 System.out.printf("Sorry, \"%s\" doesn't seem to be a number we can use for the calculation.\n", non_floating_radius);
         }
 }
-
-/*
- *
- * Request Radius from the user
- *
- */
-public static float requestRadius(Scanner scan) {
-        System.out.println("Please enter a radius (including decimal points)");
-
-        if(scan.hasNextFloat()) {
-                float radius = scan.nextFloat();
-
-                //clear out the buffer
-                if(scan.hasNextLine()) {
-                        scan.nextLine();
-                }
-
-                return radius;
-        } else {
-                String non_floating_radius = scan.next();
-                System.out.printf("Sorry, \"%s\" doesn't seem to be a number we can use for the calculation.\n", non_floating_radius);
-                return requestRadius(scan);
-        }
-}
-
-/*
- *
- * Request Calculation type from the user
- *
- */
-public static String requestCalculationType(Scanner scan) {
-        System.out.println("What would you like to calculate?");
-        System.out.println("To calculate Diameter, Circumference, or Area, enter D, C, or A.");
-
-        String type = scan.next();
-
-        //Validate the incoming string
-        if(type.equals("D") || type.equals("C") || type.equals("A")) {
-                //if the input string is an allowed option, return the string
-                return type;
-        } else {
-                //otherwise, re-ask the user for an allowed option
-                System.out.printf("Sorry, \"%s\" is not a calculation option.\n", type);
-                return requestCalculationType(scan);
-        }
-}
-
 }
