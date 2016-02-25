@@ -18,17 +18,13 @@ class Iteration {
  * Replace these variables per project
  *
  */
-public static String project_file_name = "Iteration.java";
-public static int project_number = 2;
-public static String project_description = "Iteration and Reading Files";
-
 private static void printHeading() {
         // Print out the Heading (reuse for each project)
         System.out.println("Steven Hernandez.");
         System.out.println("Introduction to Programming CMSC 255-002 Spring 2016");
-        System.out.println(project_file_name);
-        System.out.println("Project: " + project_number);
-        System.out.println(project_description);
+        System.out.println("Iteration.java");
+        System.out.println("Project: 3");
+        System.out.println("Iteration and Reading Files");
         System.out.println();
 }
 
@@ -42,42 +38,52 @@ public static void main (String[] args) throws IOException {
         printHeading();
 
         //project code
-        String filename = "Jabberwocky.txt";
+        String filename;
         Scanner file;
+        Scanner keyboard = new Scanner(System.in);
 
-        //load file in
-        file = reloadFile(filename);
+        //ask for filename
+        System.out.println("What file would you like to use?");
+        filename = keyboard.next();
 
-        int line_count = 0; // line count so that we can figure out how many spaces to allot for line numbers.
-        //for each line in file
-        while(file.hasNextLine()) {
-                String line = file.nextLine();
-                line = line.trim();
-                //if line character count is not 0
-                if(line.length() > 0) {
-                        //line-count gets line-count + 1
-                        line_count++;
+        //test if file exists
+        if (new File(filename).exists()) {
+                //load file in
+                file = reloadFile(filename);
+
+                int line_count = 0; // line count so that we can figure out how many spaces to allot for line numbers.
+                //for each line in file
+                while(file.hasNextLine()) {
+                        String line = file.nextLine();
+                        line = line.trim();
+                        //if line character count is not 0
+                        if(line.length() > 0) {
+                                //line-count gets line-count + 1
+                                line_count++;
+                        }
                 }
-        }
 
-        //build format_string "current_line. line_string"
-        String format_string = "%" + Integer.toString(line_count).length() + "d. %s\n";
+                //build format_string "current_line. line_string"
+                String format_string = "%" + Integer.toString(line_count).length() + "d.  %s\n";
 
-        //reload file
-        file = reloadFile(filename);
+                //reload file
+                file = reloadFile(filename);
 
-        //for each line in file
-        int current_line = 1;
-        while(file.hasNextLine()) {
-                String line = file.nextLine();
-                //if line character count is not 0
-                if(line.trim().length() > 0) {
-                        //print line with formatted prepended string
-                        System.out.printf(format_string, current_line, line);
-                        current_line++;
-                } else {
-                        System.out.println(line);
+                //for each line in file
+                int current_line = 1;
+                while(file.hasNextLine()) {
+                        String line = file.nextLine();
+                        //if line character count is not 0
+                        if(line.trim().length() > 0) {
+                                //print line with formatted prepended string
+                                System.out.printf(format_string, current_line, line);
+                                current_line++;
+                        } else {
+                                System.out.println(line);
+                        }
                 }
+        } else {
+                System.out.printf("It looks like the file '%s' does not exist.", filename);
         }
 
 }
