@@ -1,3 +1,13 @@
+//*****************************************************
+//
+// Steven Hernandez.
+// Introduction to Programming CMSC 255-002 Spring 2016
+// PopcornEvaluation.java
+// Project: 4
+// Evaluating Popcorn Data Files
+//
+//*****************************************************
+
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,6 +17,8 @@ public class PopcornEvaluation {
   final static int MIN_COL_LENGTH = 24;
   
   public static void main(String[] args) throws FileNotFoundException { 
+    printHeading();
+    
     Scanner in = new Scanner(System.in);
     File file = getFile(in);
     
@@ -94,6 +106,22 @@ public class PopcornEvaluation {
       pintsPerAcre = pintsPerAcre - 25;
     }
     
+    System.out.println();
+  }
+  
+  /*
+   *
+   * Use this portion of code for all project in this course
+   * Replace these variables per project
+   *
+   */
+  private static void printHeading() {
+    // Print out the Heading (reuse for each project)
+    System.out.println("Steven Hernandez.");
+    System.out.println("Introduction to Programming CMSC 255-002 Spring 2016");
+    System.out.println("PopcornEvaluation.java");
+    System.out.println("Project: 4");
+    System.out.println("Evaluating Popcorn Data Files");
     System.out.println();
   }
 }
