@@ -75,7 +75,7 @@ public class PopcornEvaluation {
     scan.nextDouble();
 
     // everything seems cool, let it go dude.
-    return true; // pints
+    return true;
   }
 
   public static String parseFarmName(String line) {
@@ -87,6 +87,7 @@ public class PopcornEvaluation {
     
     double acres = scan.nextDouble();
     double pints = scan.nextDouble();
+    if (acres == 0) return 0; // prevent dividing by zero
     return pints / acres;
   }
 
@@ -98,10 +99,12 @@ public class PopcornEvaluation {
     }
     
     int columnLength = (int)pintsPerAcre / 25;
+    if ((int)pintsPerAcre % 25 == 0) columnLength++; // incase exactly 25
+
     if (columnLength < MIN_COL_LENGTH) columnLength = MIN_COL_LENGTH;
     for (int i = 0; i < columnLength; i++) {
-      char star = pintsPerAcre > 25 ? '*' : ' ';
-      if (i == 5 * 4 - 1) star = pintsPerAcre > 25 ? '#' : '|';
+      char star = pintsPerAcre >= 25 ? '*' : ' ';
+      if (i == 5 * 4 - 1) star = pintsPerAcre >= 25 ? '#' : '|';
       System.out.print(star);
       pintsPerAcre = pintsPerAcre - 25;
     }
