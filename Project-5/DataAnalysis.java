@@ -14,29 +14,51 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DataAnalysis {
-  
-  public static void main(String[] args) throws FileNotFoundException
-  { 
+
+  public static void main(String[] args)
+  {
     printHeading();
-    
+
+    /*
+     * establish which file the user wants to use
+     */
+
     //check that a command line argument was passed
-    String filename;
-    if (args.length == 0) {
+    String filename = (args.length != 0) ? args[0] : "";
+    if (filename == "") {
       System.out.println("No filename found when running command. Example: ");
       System.out.println("java DataAnalaysis example.txt");
-      filename = "";
-    } else {
-      filename = args[0];
     }
-    
-    //check that the file exists
+
     File file = getFile(filename);
 
-    Scanner file_in = new Scanner(file);
+    Scanner file_in;
 
-    //get month
-    String month = file_in.nextLine();
-    
+    try {
+      file_in = new Scanner(file);
+    }
+    catch (FileNotFoundException e) {
+      // we already decided that the file exists, but this is required.
+      System.out.println("File Not Found.");
+      return;
+    }
+
+    /*
+     * Now retreive and process the data from the file
+     */
+
+    //get `month year`
+    String month_year = file_in.nextLine();
+    String month = month_year.split(" ")[0];
+
+    int numDaysInMonth;
+    try {
+      numDaysInMonth = numDaysInMonth(month);
+    } catch (Exception e){
+      System.out.println(e);
+      return;
+    }
+
     // store each line value into array
     ArrayList <Integer> values = new ArrayList <Integer>();
     while(file_in.hasNextLine()) {
@@ -52,7 +74,7 @@ public class DataAnalysis {
     double average = calculateAverage(values);
 
     // Print Header
-    System.out.println("The average temperature for " + month + " was " + average);
+    System.out.println("The average temperature for " + month_year + " was " + average);
 
     // Print row
     for (int i = 0; i < values.size(); i++) {
@@ -94,9 +116,9 @@ public class DataAnalysis {
     }
     return total / values.size();
   }
-  
+
   /*
-   * String filename - from command line
+   * @param filename - from command line
    */
   private static File getFile(String filename) {
     File file = new File(filename);
@@ -108,6 +130,28 @@ public class DataAnalysis {
       file = new File(filename);
     }
     return file;
+  }
+
+  private static int numDaysInMonth(String month) throws Exception {
+    switch (month.toLowerCase()) {
+      case "january":
+      case "march":
+      case "may":
+      case "july":
+      case "august":
+      case "october":
+      case "december":
+        return 31;
+      case "april":
+      case "june":
+      case "deptember":
+      case "november":
+        return 30;
+      case "february":
+        return 28;
+      default:
+        throw new Exception("'" + month + "' doesn't seem to a month we can use.");
+    }
   }
 
   /*
