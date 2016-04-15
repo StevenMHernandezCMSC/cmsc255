@@ -60,7 +60,7 @@ public static void main (String[] args) {
                                 break;
                         case '}':
                                 System.out.print(currentIndex);
-                                currentIndex = currentIndex > 0 ? currentIndex-- : 0; // if greater than 0, subtract 1
+                                currentIndex = currentIndex > 0 ? currentIndex - 1 : 0;
                                 break;
                         default:
                                 break;
@@ -104,5 +104,12 @@ private static void printHeading()
         System.out.println();
 }
 }
-}
-}}
+
+
+/*
+{} Don't number these
+*/
+
+//   {} Don't number these
+
+public static String test = "{} Nor these";

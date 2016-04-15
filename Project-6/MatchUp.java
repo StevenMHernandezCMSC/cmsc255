@@ -47,27 +47,76 @@ public static void main (String[] args) {
 
         int currentIndex = 0;
 
+        boolean inMultilineComment = false;
+        boolean inSingleLineComment = false;
+        boolean inStringLiteral = false;
+        boolean isCharacter = false;
+
         while(file_in.hasNextLine()) {
                 String line = file_in.nextLine();
 
                 for(int i = 0; i < line.length(); i++) {
                         char character = line.charAt(i);
                         System.out.print(character);
-                        switch (character) {
-                        case '{':
-                                currentIndex++;
-                                System.out.print(currentIndex);
-                                break;
-                        case '}':
-                                System.out.print(currentIndex);
-                                currentIndex = currentIndex > 0 ? currentIndex - 1 : 0;
-                                break;
-                        default:
-                                break;
+
+
+                        // Determine if this is the beginning of comment
+                        if (character == '/') {
+                                if (inMultilineComment) {
+                                        if (i > 0) {
+                                                if (line.charAt(i - 1) == '*') inMultilineComment = false;
+                                        }
+                                }
+
+                                if (i < line.length() - 1) {
+                                        switch(line.charAt(i + 1)) {
+                                        case '/':
+                                                inSingleLineComment = true;
+                                                break;
+                                        case '*':
+                                                if (!inSingleLineComment) inMultilineComment = true;
+                                                break;
+                                        default:
+                                                break;
+                                        }
+                                }
+                        }
+
+                        // Determine if we are in string literal
+                        if (character == '"') {
+                                inStringLiteral = !inStringLiteral;
+                        }
+
+                        //Determine if we are in a character
+                        if (i > 0 && i < line.length() - 1) {
+                                if (line.charAt(i - 1) == '\'' && line.charAt(i + 1) == '\'') {
+                                        isCharacter = true;
+                                } else {
+                                        isCharacter = false;
+                                }
+                        }
+
+                        // Check to see if we should print the number
+                        if (!inMultilineComment && !inSingleLineComment && !inStringLiteral && !isCharacter) {
+                                switch (character) {
+                                case '{':
+                                        currentIndex++;
+                                        System.out.print(currentIndex);
+                                        break;
+                                case '}':
+                                        System.out.print(currentIndex);
+                                        currentIndex = currentIndex > 0 ? currentIndex - 1 : 0; // if greater than 0, subtract 1
+                                        break;
+                                default:
+                                        break;
+                                }
                         }
                 }
 
                 System.out.println();
+
+                inSingleLineComment = false;
+                inStringLiteral = false;
         }
 
 }
