@@ -19,7 +19,7 @@ public class Circle {
     }
     public double getRadius()
     {
-      return this.format(radius);
+      return this.format(this.radius);
     }
 
     public double getDiameter()
@@ -36,8 +36,6 @@ public class Circle {
     }
     public String toString()
     {
-      // fun way to format the radius to only out put at most 2 decimal places
-      // sure there are more efficient methods to do this
       return "Radius: " + this.getRadius();
     }
 
